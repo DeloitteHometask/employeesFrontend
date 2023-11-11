@@ -1,0 +1,31 @@
+import { useDispatch } from "react-redux";
+import InputResult from "../../model/InputResult";
+import { authActions } from "../../redux/slices/AuthSlice";
+import LoginData from "../../model/LoginData";
+import { authService } from "../../config/service-config";
+import UserData from "../../model/UserData";
+import SignInForm from "../forms/SignInForm";
+const SignUp: React.FC = () => {
+    const dispatch = useDispatch();
+    async function submitFn(loginData: LoginData): Promise<InputResult> {
+        
+        let inputResult: InputResult = {status: 'error',
+         message: "Server unavailable, repeat later on"}
+        try {
+            const res: UserData = await authService.login(loginData);
+            res && dispatch(authActions.set(res));
+            console.log("res" + res);
+            
+            inputResult = {status: res ? 'success' : 'error',
+            message: res ? '' : 'Incorrect Credentials'}
+            
+        } catch (error) {
+            
+        }
+        return inputResult;
+    }
+    return <SignInForm submitFn={submitFn}/>
+
+}
+
+ export default SignUp;

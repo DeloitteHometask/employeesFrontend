@@ -1,0 +1,161 @@
+import { Observable, Subscriber } from "rxjs";
+import Employee from "../model/Employee";
+import { AUTH_DATA_JWT } from "./AuthServiceJWT";
+import EmployeesService from "./EmployeesService";
+import { CompatClient, Stomp } from "@stomp/stompjs";
+const TOPIC: string = "/topic/employees";
+
+async function getResponseText(response: Response): Promise<string> {
+    let res = '';
+    if (!response.ok) {
+        const { status } = response;
+        res = status == 401 || status == 403 ? 'Authentication' : await response.text();
+    }
+    return res;
+
+}
+function getHeaders(): HeadersInit {
+    const res: HeadersInit = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem(AUTH_DATA_JWT) || ''}`
+    }
+    return res;
+}
+async function fetchRequest(url: string, options: RequestInit, empl?: Employee | string): Promise<Response> {
+    options.headers = getHeaders();
+    if (empl) {
+        options.body = JSON.stringify(empl);
+    }
+
+    let flUpdate = true;
+    let responseText = '';
+    try {
+        if (options.method == "DELETE" || options.method == "PUT") {
+            flUpdate = false;
+            await fetchRequest(url, { method: "GET" });
+            flUpdate = true;
+        }
+
+        const response = await fetch(url, options);
+        responseText = await getResponseText(response);
+        if (responseText) {
+            console.log("Response text" + responseText);
+            
+            throw responseText;
+        }
+        return response;
+    } catch (error: any) {
+        if (!flUpdate) {
+            console.log(error.message);
+            
+            throw error;
+        }
+        console.log(responseText);
+        console.log(error.message);
+        
+        
+        throw responseText ? responseText : "Server is unavailable. Repeat later on";
+    }
+}
+async function fetchAllEmployees(url: string): Promise<Employee[] | string> {
+    const response = await fetchRequest(url, {});
+    return await response.json()
+}
+
+export default class EmployeesServiceRest implements EmployeesService {
+    private observable: Observable<Employee[] | string> | null = null;
+    private subscriber: Subscriber<string | Employee[]> | undefined;
+    private urlService: string;
+    private urlWebSocket: string;
+    private stompClient: CompatClient;
+    private cache: Map<number, Employee>;
+
+    constructor(baseUrl: string) {
+        this.urlService = `http://${baseUrl}/employees`;
+        this.urlWebSocket = `ws://${baseUrl}/websocket/employees`;//библиотека webSocket, мб еще wss это + Security
+        this.stompClient = Stomp.client(this.urlWebSocket);//get Client
+        this.cache = new Map();
+    }
+
+    async updateEmployee(empl: Employee): Promise<Employee> {
+        const response = await fetchRequest(this.getUrlWithId(empl.id!),
+            { method: 'PUT' }, empl);
+        return await response.json();
+    }
+
+    private getUrlWithId(id: any): string {
+        return `${this.urlService}/${id}`;
+    }
+
+    private subscriberNext(): void {
+        fetchAllEmployees(this.urlService).then(employees => {
+            if (this.cache.size == 0 && employees instanceof Object) {
+                console.log("Cache was updated");
+                
+                employees.forEach(e => this.cache.set(e.id, e))
+            }
+            this.subscriber?.next(Array.from(this.cache.values()));
+            // this.subscriber?.next(employees);
+        }).catch(error => this.subscriber?.next(error));
+    }
+
+    async deleteEmployee(id: any): Promise<void> {
+        await fetchRequest(this.getUrlWithId(id), {
+            method: 'DELETE',
+        });
+    }
+
+    getEmployees(): Observable<Employee[] | string> {
+        if (!this.observable) {
+            this.observable = new Observable<Employee[] | string>(subscriber => {
+                this.subscriber = subscriber;
+                this.subscriberNext();
+
+                this.connectWebSocket();//getConnection
+                return () => this.disconnectWebSocket()
+            })
+        }
+        return this.observable;
+    }
+
+
+
+    private connectWebSocket() {//if will be message from Server with this Theme
+        this.stompClient.connect(
+            {},
+            () => {
+                this.stompClient.subscribe(TOPIC, message => {
+                    const data: any= JSON.parse(message.body);
+                    data.operation == "delete"? this.cache.delete(data.payload.id) : this.cache.set(data.payload.id, data.payload)
+                    this.subscriberNext();
+                });
+            },
+            (error: any) => this.subscriber?.next(JSON.stringify(error)),
+            () => console.log("websocket disconnect"));
+    }
+
+    private disconnectWebSocket(): void {
+        this.stompClient?.disconnect();
+        this.cache.clear();
+    }
+
+    async addEmployee(empl: Employee): Promise<Employee> {
+        if(empl.id == null){
+            delete empl.id;
+        }
+        const response = await fetchRequest(this.urlService, {
+            method: 'POST',
+        }, empl)
+            ;
+        return response.json();
+
+    }
+
+    async findEmployeesByPattern(pattern: string): Promise<Employee[]>{
+        const response = await fetchRequest(this.urlService, {
+            method: 'GET',
+        }, pattern);
+        return response.json();
+    }
+
+}
