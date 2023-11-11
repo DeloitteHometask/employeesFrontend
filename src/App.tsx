@@ -42,7 +42,7 @@ function getRoutes(userData: UserData): RouteType[] {
     return res
   });
   if (userData) {
-    res[res.length - 1].label = userData.email;
+    res[res.length - 1].label = userData.username;
   }
   return res
 }

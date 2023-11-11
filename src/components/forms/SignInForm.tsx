@@ -6,6 +6,7 @@ import { StatusType } from '../../model/StatusType';
 type Props = {
     submitFn: (loginData: LoginData) => Promise<InputResult>
 }
+
 const SignInForm: React.FC<Props> = ({ submitFn }) => {
     const message = React.useRef<string>('');
     const [open, setOpen] = React.useState(false);
@@ -22,7 +23,7 @@ const SignInForm: React.FC<Props> = ({ submitFn }) => {
         message.current && setOpen(true);
     };
 
-    return (
+    return ( 
         <div style={{
             marginTop: "27vh", alignItems: "center", justifyContent: "center", display: "flex"
         }}>

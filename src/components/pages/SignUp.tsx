@@ -1,31 +1,40 @@
 import { useDispatch } from "react-redux";
 import InputResult from "../../model/InputResult";
-import { authActions } from "../../redux/slices/AuthSlice";
 import LoginData from "../../model/LoginData";
 import { authService } from "../../config/service-config";
 import UserData from "../../model/UserData";
-import SignInForm from "../forms/SignInForm";
+import SignUpForm from "../forms/SignUpForm";
+import { authActions } from "../../redux/slices/AuthSlice";
+
 const SignUp: React.FC = () => {
     const dispatch = useDispatch();
-    async function submitFn(loginData: LoginData): Promise<InputResult> {
-        
-        let inputResult: InputResult = {status: 'error',
-         message: "Server unavailable, repeat later on"}
+
+    async function submitFn(lodinData: LoginData): Promise<InputResult> {
+        let successMessage: string = '';
+        let inputResult: InputResult = {
+            status: 'error',
+            message: "Server unavailable, repeat later on"
+        }
         try {
-            const res: UserData = await authService.login(loginData);
-            res && dispatch(authActions.set(res));
-            console.log("res" + res);
-            
-            inputResult = {status: res ? 'success' : 'error',
-            message: res ? '' : 'Incorrect Credentials'}
-            
+            const user: UserData = await authService.registration(lodinData);
+            successMessage = `user with email: ${user!.username} has been registered`;
+            const res: UserData = await authService.login({ email: lodinData.email, password: lodinData.password });
+            res && dispatch(authActions.set({ ...lodinData, role: res.role }));
+            inputResult = {
+                status: res ? 'success' : 'error',
+                message: res ? '' : 'Incorrect Credentials'
+            }
+
         } catch (error) {
-            
         }
         return inputResult;
     }
-    return <SignInForm submitFn={submitFn}/>
 
+    return (
+        <>
+            <SignUpForm submitFn={submitFn}
+            />
+        </>)
 }
 
- export default SignUp;
+export default SignUp;

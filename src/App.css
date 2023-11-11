@@ -24,7 +24,7 @@
     margin-right: 2vh;
  }
 
-.employees-search-header, .sing-in-header{
+.employees-search-header, .sing-in-header, .sing-up-header{
     color:#06b8c8;
     font-weight: bold;
     font-size: 5vh;
@@ -71,7 +71,7 @@
     border-radius:10cqb;
   }
 
-  .sing-in-button, .create-account-button {
+  .sing-in-button, .create-account-button, .sing-up-button {
     border: none;
     color: white;
     font-size: 2vh;
