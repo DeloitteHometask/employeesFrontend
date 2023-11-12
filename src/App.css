@@ -1,87 +1,191 @@
-.deloitte{
-    margin-top: 7vh;
-    font-weight: bold;
-    font-size: 5vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px;
+.deloitte {
+  margin-top: 1vh;
+  font-weight: bold;
+  font-size: 5vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
 }
 
-.deloitte-point{
-    color:rgb(68, 255, 47)
+.deloitte-point {
+  color: rgb(68, 255, 47)
 }
 
- 
- .navigator{
-    float: right;
-    position: fixed;
-    top: 3vh;
-    right: 3vh;
-    font-size: 2vh;
-    color:white;
-    margin-right: 2vh;
- }
 
-.employees-search-header, .sing-in-header, .sing-up-header{
-    color:#06b8c8;
-    font-weight: bold;
-    font-size: 5vh;
-    letter-spacing: 0.1em;
+.navigator {
+  float: right;
+  position: fixed;
+  top: 3vh;
+  right: 3vh;
+  font-size: 2vh;
+  color: white;
+  margin-right: 2vh;
+}
+
+.employees-search-header,
+.sing-in-header,
+.sing-up-header {
+  color: #06b8c8;
+  font-weight: bold;
+  font-size: 5vh;
+  letter-spacing: 0.1em;
 }
 
 .search-button {
-    position: relative;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    background-color: #06b8c8;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .search-button::before {
-    content: '';
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    width: 10px;
-    height: 10px;
-    border: 2px solid white;
-    border-radius: 50%;
-  }
-  
-  .search-button::after {
-    content: '';
-    position: absolute;
-    left: 20px;
-    top: 25px;
-    width: 12px;
-    height: 2px;
-    background: white;
-    transform: rotate(45deg);
-  }
+  position: relative;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: #06b8c8;
+  border: none;
+  cursor: pointer;
+}
 
-  .search-input, .password-input, .email-input{
-    justify-content: center;
-    align-items: center;
-    width: 50vh;
-    height: 40px;    
-    border-radius:10cqb;
-  }
+.search-button::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid white;
+  border-radius: 50%;
+}
 
-  .sing-in-button, .create-account-button, .sing-up-button {
-    border: none;
-    color: white;
-    font-size: 2vh;
-    background-color: #06b8c8;
-    padding: 14px 28px;
-    cursor: pointer;
-    border-radius: 10cqb;
-  }
+.search-button::after {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 25px;
+  width: 12px;
+  height: 2px;
+  background: white;
+  transform: rotate(45deg);
+}
 
-.sing-in-button:hover {background-color:  #048a96}
+.search-input,
+.password-input,
+.email-input {
+  justify-content: center;
+  align-items: center;
+  width: 50vh;
+  height: 40px;
+  border-radius: 10cqb;
+}
 
-  
+.employees-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: rgb(236, 234, 234);
+  color: black;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  width: 50vh;
+  height: 50vh;
+  margin-top: 0vh;
+  margin-left: 0.5vh;
+  overflow-y: auto;
+  border-radius: 1cqb;
+}
 
+.employee-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  width: 50vh;
+
+
+}
+
+.employee-info:hover {
+  background-color: white;
+}
+
+.employee-image {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 10px;
+  background-size: cover;
+  background-position: center;
+  display: inline-block;
+}
+
+.employee-info-text {
+  display: flex;
+  margin-bottom: 5px;
+  font-size: 14px;
+  flex-direction: column;
+}
+
+.sing-in-button,
+.create-account-button,
+.sing-up-button {
+  border: none;
+  color: white;
+  font-size: 2vh;
+  background-color: #06b8c8;
+  padding: 14px 28px;
+  cursor: pointer;
+  border-radius: 10cqb;
+}
+
+.sing-in-button:hover {
+  background-color: #048a96
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 50%;
+}
+
+.close-button:hover {
+  background-color:rgb(128, 42, 42)
+}
+
+.employee-name{
+  color: rgb(128, 42, 42);
+  font-weight: bold;
+  text-align: center;
+}
+
+.employee-worktitle{
+  color:gray;
+  text-align: center;
+
+}

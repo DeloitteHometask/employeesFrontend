@@ -26,7 +26,11 @@ const Navigator: React.FC<{ routes: RouteType[] }> = ({routes}) => {
                         key={route.to} 
                         to={route.to} 
                         onClick={() => setValue(index)} 
-                        style={{fontWeight: value === index ? 'bold' : 'normal', marginRight: "1vh"}}
+                        style={{
+                            fontWeight: value === index ? "bold" : "normal",
+                            marginRight: "1vh",
+                            color: "white"
+                          }}
                         
                     >
                         {route.label}

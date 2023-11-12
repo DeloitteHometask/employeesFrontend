@@ -51,7 +51,7 @@ const App: React.FC = () => {
   const userData = useSelectorAuth();
   const code = useSelectorCode();
   const dispatch = useDispatch();
-  console.log("userData: ", userData);
+  // console.log("userData: ", userData);
   
 
   const [alertMessage, severity] = useMemo(() => codeProcessing(), [code]);

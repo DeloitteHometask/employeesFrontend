@@ -1,7 +1,9 @@
+import WorkTitle from "./WorkTitle";
+
 type Employee = {
     id?: any,
     name: string,
-    workTitle: string,
+    workTitle: WorkTitle,
     imageUrl: string
 }
 export default Employee;

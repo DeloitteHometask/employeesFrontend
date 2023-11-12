@@ -10,7 +10,7 @@ type Props = {
 }
 
 const EmployeeCard: React.FC<Props> = ({ employee, updateFn, deleteFn }) => {
-    const [openUpdate, setOpenUpdate] = useState<boolean>(false);
+    const [openUpdate, setOpenUpdate] = useState<boolean>(false);    
 
     return (
         <div className="employee-card" style={{ maxWidth: '345px', backgroundColor: '#FFFFFF' }}>
@@ -25,8 +25,8 @@ const EmployeeCard: React.FC<Props> = ({ employee, updateFn, deleteFn }) => {
                     <div className="employee-name">
                         {employee.name}
                     </div>
-                    <div className="employee-worktitle" style={{ color: 'grey' }}>
-                        {`${employee.workTitle}`}
+                    <div className="employee-worktitle">
+                        {employee.workTitle.workTitle}
                     </div>
                 </div>
             </div>
@@ -41,6 +41,8 @@ const EmployeeCard: React.FC<Props> = ({ employee, updateFn, deleteFn }) => {
                     </button>
                 </div>
             )}
+
+
 
             {openUpdate && updateFn && (
                 <EmployeeForm submitFn={updateFn} employeeForUpdate={employee} />

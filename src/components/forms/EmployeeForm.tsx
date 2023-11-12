@@ -7,9 +7,10 @@ type Props = {
     submitFn: (empl: Employee) => Promise<InputResult>,
     employeeForUpdate?: Employee
 }
+const workTitle: any = null;
 
 const initialEmployee: Employee = {
-    id: 0, name: '', workTitle: '', imageUrl: ''
+    id: 0, name: '', workTitle, imageUrl: ''
 };
 
 export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeForUpdate }) => {
@@ -55,7 +56,7 @@ export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeForUpdate }) =
                     <label htmlFor="select-worktitle">Work Title</label>
                     <select
                         id="select-worktitle"
-                        value={employee.workTitle}
+                        value={employee.workTitle.workTitle}
                         onChange={handlerWorkTitle}
                     >
                         <option value=''>None</option>

@@ -9,7 +9,7 @@ export const authService: AuthService =
  new AuthServiceJwt('http://localhost:3500/users/login');
 
  export const employeesService: EmployeesService =
-  new EmployeesServiceRest("http://localhost:3500/employees");
+  new EmployeesServiceRest("localhost:3500");
 
  export const workTitlesService: WorkTitleService =
- new WorkTitlesServiceRest("localhost:3500/workTitles");
+ new WorkTitlesServiceRest("localhost:3500");

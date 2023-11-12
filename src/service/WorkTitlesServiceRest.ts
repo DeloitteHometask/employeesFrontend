@@ -1,11 +1,9 @@
-import { Observable, Subscriber } from "rxjs";
-import Employee from "../model/Employee";
-import { AUTH_DATA_JWT } from "./AuthServiceJWT";
-import EmployeesService from "./EmployeesService";
 import { CompatClient, Stomp } from "@stomp/stompjs";
+import { Observable, Subscriber } from "rxjs";
 import WorkTitle from "../model/WorkTitle";
+import { AUTH_DATA_JWT } from "./AuthServiceJWT";
 import WorkTitlesService from "./WorkTitlesService";
-const TOPIC: string = "/topic/employees";
+const TOPIC: string = "/topic/worktitles";
 
 async function getResponseText(response: Response): Promise<string> {
     let res = '';
@@ -33,11 +31,11 @@ async function fetchRequest(url: string, options: RequestInit, wt?: WorkTitle): 
     let flUpdate = true;
     let responseText = '';
     try {
-        if (options.method == "DELETE" || options.method == "PUT") {
-            flUpdate = false;
-            await fetchRequest(url, { method: "GET" });
-            flUpdate = true;
-        }
+        // if (options.method == "DELETE" || options.method == "PUT") {
+        //     flUpdate = false;
+        //     await fetchRequest(url, { method: "GET" });
+        //     flUpdate = true;
+        // }
 
         const response = await fetch(url, options);
         responseText = await getResponseText(response);
@@ -68,39 +66,35 @@ export default class WorkTitlesServiceRest implements WorkTitlesService {
     private cache: Map<String, WorkTitle>;
 
     constructor(baseUrl: string) {
-        this.urlService = `http://${baseUrl}/worktitles`;
-        this.urlWebSocket = `ws://${baseUrl}/websocket/employees`;
+        this.urlService = `http://${baseUrl}/company/worktitles`;
+        this.urlWebSocket = `ws://${baseUrl}/websocket/company`;
         this.stompClient = Stomp.client(this.urlWebSocket);
         this.cache = new Map();
     }
 
-    async updateWorkTitle(wt: WorkTitle): Promise<WorkTitle> {
-        const response = await fetchRequest(this.getUrlWithId(wt.workTitle),
-            { method: 'PUT' }, wt);
-        return await response.json();
+    async addWorkTitle(wt: WorkTitle): Promise<WorkTitle> {
+        const response = await fetchRequest(this.urlService, {
+            method: 'POST',
+        }, wt);
+        return response.json();
     }
 
-    private getUrlWithId(id: any): string {
-        return `${this.urlService}/${id}`;
-    }
+    // async updateWorkTitle(wt: WorkTitle): Promise<WorkTitle> {
+    //     const response = await fetchRequest(this.getUrlWithId(wt.workTitle),
+    //         { method: 'PUT' }, wt);
+    //     return await response.json();
+    // }
 
-    private subscriberNext(): void {
-        fetchAllWorkTitles(this.urlService).then(worktitles => {
-            if (this.cache.size == 0 && worktitles instanceof Object) {
-                console.log("Cache was updated");
-                
-                worktitles.forEach(wt => this.cache.set(wt.workTitle, wt))
-            }
-            this.subscriber?.next(Array.from(this.cache.values()));
-            // this.subscriber?.next(employees);
-        }).catch(error => this.subscriber?.next(error));
-    }
+        // async deleteWorkTitle(id: any): Promise<void> {
+    //     await fetchRequest(this.getUrlWithId(id), {
+    //         method: 'DELETE',
+    //     });
+    // }
 
-    async deleteWorkTitle(id: any): Promise<void> {
-        await fetchRequest(this.getUrlWithId(id), {
-            method: 'DELETE',
-        });
-    }
+
+    // private getUrlWithId(id: any): string {
+    //     return `${this.urlService}/${id}`;
+    // }
 
     getWorkTitles(): Observable<WorkTitle[] | string> {
         if (!this.observable) {
@@ -112,6 +106,17 @@ export default class WorkTitlesServiceRest implements WorkTitlesService {
             })
         }
         return this.observable;
+    }
+
+    private subscriberNext(): void {
+        fetchAllWorkTitles(this.urlService).then(worktitles => {
+            if (this.cache.size == 0 && worktitles instanceof Object) {
+                console.log("Cache was updated");
+                worktitles.forEach(wt => this.cache.set(wt.workTitle, wt))
+            }
+            this.subscriber?.next(Array.from(this.cache.values()));
+            // this.subscriber?.next(employees);
+        }).catch(error => this.subscriber?.next(error));
     }
 
     private connectWebSocket() {
@@ -131,15 +136,6 @@ export default class WorkTitlesServiceRest implements WorkTitlesService {
     private disconnectWebSocket(): void {
         this.stompClient?.disconnect();
         this.cache.clear();
-    }
-
-    async addWorkTitle(wt: WorkTitle): Promise<WorkTitle> {
-        const response = await fetchRequest(this.urlService, {
-            method: 'POST',
-        }, wt)
-            ;
-        return response.json();
-
     }
 
 }
