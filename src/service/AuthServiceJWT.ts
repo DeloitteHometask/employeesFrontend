@@ -42,7 +42,7 @@ export default class AuthServiceJwt implements AuthService {
         serverLoginData.username = loginData.email;
         serverLoginData.password = loginData.password
         
-       const response = await fetch(this.url, {
+       const response = await fetch(this.url + "/login", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -45,6 +45,7 @@ const SignUpForm: React.FC<Props> = ({ submitFn }) => {
           SIGN UP
         </div>
         <form onSubmit={handleSubmit}>
+        <div className="form-row">
           <input
             className='email-input'
             type="email"
@@ -54,7 +55,8 @@ const SignUpForm: React.FC<Props> = ({ submitFn }) => {
             value={formData.email}
           // onChange={handleInputChange}
           />
-          <p />
+          </div>
+          <div className="form-row">
           <input
             className='password-input'
             type="password"
@@ -64,8 +66,10 @@ const SignUpForm: React.FC<Props> = ({ submitFn }) => {
             value={formData.password}
           // onChange={handleInputChange}
           />
-          <p />
+          </div>
+          <div className="form-buttons">
           <button className='sing-up-button' type="submit">Sign Up</button>
+          </div>
         </form>
       </div>
 

@@ -7,10 +7,10 @@ type Props = {
     submitFn: (empl: Employee) => Promise<InputResult>,
     employeeForUpdate?: Employee
 }
-const workTitle: any = null;
-
 const initialEmployee: Employee = {
-    id: 0, name: '', workTitle, imageUrl: ''
+    name: '',
+    workTitle: { workTitle: '' },
+    imageUrl: ''
 };
 
 export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeForUpdate }) => {
@@ -33,9 +33,9 @@ export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeForUpdate }) =
     }
 
     function handlerWorkTitle(event: any) {
-        const workTitle = event.target.value;
+        const selectedWorkTitle = event.target.value;
         const emplCopy = { ...employee };
-        emplCopy.workTitle = workTitle;
+        emplCopy.workTitle = { workTitle: selectedWorkTitle };
         setEmployee(emplCopy);
     }
 
@@ -50,42 +50,51 @@ export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeForUpdate }) =
     }
 
     return (
-        <div style={{ marginTop: "25vh" }}>
-            <form onSubmit={onSubmitFn} onReset={onResetFn}>
-                <div>
-                    <label htmlFor="select-worktitle">Work Title</label>
-                    <select
-                        id="select-worktitle"
-                        value={employee.workTitle.workTitle}
-                        onChange={handlerWorkTitle}
-                    >
-                        <option value=''>None</option>
-                        {workTitles.map((wt, index) => <option value={wt.workTitle} key={index}>{wt.workTitle}</option>)}
-                    </select>
+        <div className="employee-form-container" style={{ marginTop: "25vh", flexDirection: "column" }} >
+            <div style={{ textAlign: "center", width: "100%" }} className="add-employee-header">
+                    ADD NEW EMPLOYEE
                 </div>
-                <div>
-                    <label htmlFor="employee-name">Employee name</label>
-                    <input
-                        id="employee-name"
-                        type="text"
-                        required
-                        onChange={handlerName}
-                        value={employee.name}
-                    />
+            <form className="employee-form" onSubmit={onSubmitFn} onReset={onResetFn}>
+                <div className="form-row">
+                    <div>
+                        <select
+                            className='employee-form-input'
+                            id="select-worktitle"
+                            value={employee.workTitle?.workTitle || ''}
+                            onChange={handlerWorkTitle}
+                        >
+                            <option value=''>Work Title</option>
+                            {workTitles.map((wt, index) => <option value={wt.workTitle} key={index}>{wt.workTitle}</option>)}
+                        </select>
+                    </div>
+                    <div>
+                        <input
+                            placeholder="Employee name"
+                            className='employee-form-input'
+                            id="employee-name"
+                            type="text"
+                            required
+                            onChange={handlerName}
+                            value={employee.name}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            placeholder="Image URL"
+                            className='employee-form-input'
+                            id="employee-url"
+                            type="url"
+                            required
+                            onChange={handlerImageUrl}
+                            value={employee.imageUrl}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="employee-url">Employee URL</label>
-                    <input
-                        id="employee-url"
-                        type="url"
-                        required
-                        onChange={handlerImageUrl}
-                        value={employee.imageUrl}
-                    />
-                </div>
-                <div style={{ textAlign: "center", marginTop: "10vh" }}>
-                    <button type="submit">Submit</button>
-                    <button type="reset">Reset</button>
+                <div className="form-buttons">
+                    
+                        <button className="create-employee-button" type="submit">Submit</button>
+                        <button className="create-employee-button" type="reset">Reset</button>
+                    
                 </div>
             </form>
         </div>

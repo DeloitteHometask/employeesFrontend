@@ -6,14 +6,14 @@ import { authService, employeesService } from "../../config/service-config";
 import { useDispatchCode } from "../../hooks/hooks";
 
 const AddEmployee: React.FC = () => {
-     let successMessage: string = '';
+     let successMessage: string = ''; 
         let errorMessage = '';
         const dispatch = useDispatchCode();
     
     
         async function submitFn(empl: Employee): Promise<InputResult> {   
         const res: InputResult = {status: 'success', message: ''};
-        try {
+        try {            
             const employee: Employee = await employeesService.addEmployee(empl);
             successMessage = `employee with id: ${employee.id} has been added`
         } catch (error: any) {

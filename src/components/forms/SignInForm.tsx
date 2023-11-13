@@ -27,19 +27,21 @@ const SignInForm: React.FC<Props> = ({ submitFn }) => {
         <div style={{
             marginTop: "27vh", alignItems: "center", justifyContent: "center", display: "flex"
         }}>
-            <div style={{ display: "flex", flexDirection: "column" }} className="signin-form" >
+            <div style={{ flexDirection: "column"}} className="signin-form" >
                 <div style={{ textAlign: "center", width: "100%" }} className="sing-in-header">
                     SIGN IN
                 </div>
                 <form onSubmit={handleSubmit}>
+                <div className="form-row">
                     <input
                         className='email-input'
                         required
-                        type="email"
+                        // type=""
                         name="email"
                         placeholder="Email Address"
                     />
-                    <p />
+                    </div>
+                   <div className="form-row">
                     <input
                         className='password-input'
                         required
@@ -47,7 +49,8 @@ const SignInForm: React.FC<Props> = ({ submitFn }) => {
                         name="password"
                         placeholder="Password"
                     />
-                    <p />
+                    </div>
+                    <div className="form-buttons">
                     <button className='sing-in-button' type="submit">Sign In</button>
 
                     <button
@@ -60,6 +63,7 @@ const SignInForm: React.FC<Props> = ({ submitFn }) => {
                     >
                         Create new account
                     </button>
+                    </div>
                 </form>
             </div>
             {open && (

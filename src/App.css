@@ -26,11 +26,20 @@
 
 .employees-search-header,
 .sing-in-header,
-.sing-up-header {
+.sing-up-header,
+.add-employee-header {
   color: #06b8c8;
   font-weight: bold;
   font-size: 5vh;
   letter-spacing: 0.1em;
+}
+
+.search-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
 }
 
 .search-button {
@@ -67,7 +76,8 @@
 
 .search-input,
 .password-input,
-.email-input {
+.email-input,
+.employee-form-input {
   justify-content: center;
   align-items: center;
   width: 50vh;
@@ -75,22 +85,33 @@
   border-radius: 10cqb;
 }
 
+
+
+.employees-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Установите ширину в соответствии с вашим дизайном */
+}
+
 .employees-list {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
-  background-color: rgb(236, 234, 234);
-  color: black;
   font-size: 16px;
   border: none;
   cursor: pointer;
   width: 50vh;
-  height: 50vh;
-  margin-top: 0vh;
-  margin-left: 0.5vh;
+  max-height: 50vh; /* максимальная высота установлена на 50vh */
+  min-height: 0;
+  margin-top: -1vh;
+  margin-right: 6vh;
   overflow-y: auto;
   border-radius: 1cqb;
+  background-color: rgb(236, 234, 234);
+  color: black;
+
 }
 
 .employee-info {
@@ -100,6 +121,7 @@
   margin-bottom: 10px;
   cursor: pointer;
   width: 50vh;
+
 
 
 }
@@ -128,7 +150,8 @@
 
 .sing-in-button,
 .create-account-button,
-.sing-up-button {
+.sing-up-button,
+.create-employee-button {
   border: none;
   color: white;
   font-size: 2vh;
@@ -188,4 +211,52 @@
   color:gray;
   text-align: center;
 
+}
+
+.employee-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25vh;
+}
+
+.employee-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Adjust width as needed */
+}
+
+.form-field {
+    margin-bottom: 10px;
+    width: 100%; /* Adjust width as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* .form-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+} */
+
+.form-row {
+  display: flex;
+  flex-direction: column; /* Change to column */
+  align-items: center; /* Center align items */
+  width: 100%; /* Adjust as needed */
+  margin-bottom: 10px;
+}
+
+
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.email-input, .password-input, .search-input, .employee-form-input {
+  text-indent: 10px;
 }

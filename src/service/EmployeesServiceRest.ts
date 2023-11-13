@@ -22,7 +22,7 @@ function getHeaders(): HeadersInit {
     return res;
 }
 
-async function fetchRequest(url: string, options: RequestInit, empl?: Employee | string): Promise<Response> {
+async function fetchRequest(url: string, options: RequestInit, empl?: any): Promise<Response> {
     options.headers = getHeaders();
     if (empl) {
         options.body = JSON.stringify(empl);
@@ -55,7 +55,7 @@ async function fetchRequest(url: string, options: RequestInit, empl?: Employee |
     }
 }
 async function fetchAllEmployees(url: string): Promise<Employee[] | string> {
-    const response = await fetchRequest(url, {});
+    const response = await fetchRequest(url + "/sorted", {});
     return await response.json()
 }
 
@@ -75,12 +75,12 @@ export default class EmployeesServiceRest implements EmployeesService {
     }
 
     async addEmployee(empl: Employee): Promise<Employee> {
-        if(empl.id == null){
-            delete empl.id;
-        }
+        const employee = {...empl, workTitle: empl.workTitle.workTitle};
+        console.log(employee);
+        
         const response = await fetchRequest(this.urlService, {
             method: 'POST',
-        }, empl);
+        }, employee);
         return response.json();
     }
 
@@ -107,7 +107,7 @@ export default class EmployeesServiceRest implements EmployeesService {
         }).catch(error => this.subscriber?.next(error));
     }
 
-    private connectWebSocket() {//if will be message from Server with this Theme
+     connectWebSocket() {//if will be message from Server with this Theme
         this.stompClient.connect(
             {},
             () => {
@@ -126,35 +126,18 @@ export default class EmployeesServiceRest implements EmployeesService {
         this.cache.clear();
     }
 
-    async getAllSortedEmployees():Promise<Employee[]>{
-        const response = await fetchRequest(this.urlService + "/sorted", {
-            method: 'GET',
-        });
+    isConnectedToWebSocket(): boolean {
+        return this.stompClient?.connected || false;
+    }
+
+    async findEmployeesByPattern(pattern: string, page: number, size: number = 10): Promise<Employee[]> {
+        console.log("received reauqest for page " + page);
+        const patternUrl = `${this.urlService}/sorted/${pattern}?page=${page}&size=${size}`;
+        const response = await fetchRequest(patternUrl, { method: 'GET' });
         return response.json();
     }
 
-    async findEmployeesByPattern(pattern: string): Promise<Employee[]>{
-        const patternUrl = `${this.urlService}/sorted/${pattern}`;
-        const response = await fetchRequest(patternUrl,
-        {
-            method: 'GET',
-        });
-        return response.json();
-    }
+    
 }
 
-    // async updateEmployee(empl: Employee): Promise<Employee> {
-    //     const response = await fetchRequest(this.getUrlWithId(empl.id!),
-    //         { method: 'PUT' }, empl);
-    //     return await response.json();
-    // }
-
-    // async deleteEmployee(id: any): Promise<void> {
-    //     await fetchRequest(this.getUrlWithId(id), {
-    //         method: 'DELETE',
-    //     });
-    // }
-
-    // private getUrlWithId(id: any): string {
-    //     return `${this.urlService}/${id}`;
-    // }
+    

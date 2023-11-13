@@ -69,7 +69,7 @@ const App: React.FC = () => {
     }
     return res;
   }
-
+ 
   return <BrowserRouter>
   <div className="deloitte">
     <span className="deloitte-name">Deloitte</span>

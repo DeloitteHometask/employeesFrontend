@@ -6,7 +6,7 @@ import WorkTitleService from "../service/WorkTitlesService";
 import WorkTitlesServiceRest from "../service/WorkTitlesServiceRest";
 
 export const authService: AuthService =
- new AuthServiceJwt('http://localhost:3500/users/login');
+ new AuthServiceJwt('http://localhost:3500/accounts');
 
  export const employeesService: EmployeesService =
   new EmployeesServiceRest("localhost:3500");
