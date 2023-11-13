@@ -15,9 +15,9 @@ const SignInForm: React.FC<Props> = ({ submitFn }) => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const email: string = data.get('email')! as string;
+        const username: string = data.get('username')! as string;
         const password: string = data.get('password')! as string;
-        const result = await submitFn({ email, password });
+        const result = await submitFn({ username, password });
         message.current = result.message!;
         severity.current = result.status;
         message.current && setOpen(true);
@@ -34,11 +34,11 @@ const SignInForm: React.FC<Props> = ({ submitFn }) => {
                 <form onSubmit={handleSubmit}>
                 <div className="form-row">
                     <input
-                        className='email-input'
+                        className='username-input'
                         required
-                        // type=""
-                        name="email"
-                        placeholder="Email Address"
+                        type="text"
+                        name="username"
+                        placeholder="Username"
                     />
                     </div>
                    <div className="form-row">

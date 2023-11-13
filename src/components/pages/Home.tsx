@@ -18,24 +18,26 @@ const Home: React.FC = () => {
     //???????????????
     !employeesService.isConnectedToWebSocket() && employeesService.connectWebSocket();
 
-    async function submitFn(pattern: String, page: number): Promise<InputResult> {
+    async function submitFn(pattern: String, page: number, pageSize: number): Promise<InputResult> {
         const res: InputResult = { status: 'success', message: '' };
         try {
             if (pattern.length == 0) {
-               
-                
+
+
                 setFoundEmployees(employees);
             }
             else if (pattern.length > 1) {
-                console.log(">0 length pattern");
                 console.log("page: " + page);
-                await employeesService.findEmployeesByPattern(pattern, page)
-                    .then(res => {
-                        console.log(res);
-                        if (res.length > 0) {
-                            console.log("I received res > 2");
-                            setFoundEmployees(res);
+                await employeesService.findEmployeesByPattern(pattern, page, pageSize)
+                    .then(response => {
+                        console.log(response);
+                        if (page == 1 && response.length > 0) {
+                            setFoundEmployees(response);
+                        } else if (page >1) {
+                            const addData = [...foundEmployees, ...response];
+                            setFoundEmployees(addData);
                         } else {
+                            console.log("I received res length == 0");
                             setFoundEmployees(employees);
                         }
                     });

@@ -131,7 +131,8 @@ export default class EmployeesServiceRest implements EmployeesService {
     }
 
     async findEmployeesByPattern(pattern: string, page: number, size: number = 10): Promise<Employee[]> {
-        console.log("received reauqest for page " + page);
+        console.log("received request for page " + page);
+        console.log("received size for page " + size);
         const patternUrl = `${this.urlService}/sorted/${pattern}?page=${page}&size=${size}`;
         const response = await fetchRequest(patternUrl, { method: 'GET' });
         return response.json();

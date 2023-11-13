@@ -4,6 +4,7 @@ import EmployeeCard from "../cards/EmployeeCard";
 import Modal from "../common/Modal";
 import DropdownList from "../common/DropdownList";
 import InputResult from "../../model/InputResult";
+const PAGE_DATA_SIZE = 10;
 
 type Props = {
     submitFn: (pattern: String, page: number, pageSize: number) => Promise<InputResult>
@@ -22,69 +23,55 @@ export const SearchForm: React.FC<Props> = ({ submitFn, employees }) => {
     const [isHiddenList, setIsHiddenList] = useState<boolean>(true);
     const [openDetails, setOpenDetails] = useState<boolean>(false);
     const [pattern, setPattern] = useState<string>('');
-    const [pageNumber, setPageNumber] = useState<number>(1);
-    const pageSize = 10;
+    const pageNumber = useRef<number>(1);
     const [hasMore, setHasMore] = useState(true);
-
-    const fetchEmployees = async () => {
-        setPrevFoundEmployees(foundEmployees);
-        await getNewEmployees();
-    };
-
-    const getNewEmployees = async () => {
-        await submitFn(pattern, pageNumber, pageSize);
-        if (foundEmployees.length === 0) {
-            setHasMore(false); // Если пришел пустой ответ, прекращаем загрузку
-        } else {
-            setFoundEmployees([...prevFoundEmployees, ...foundEmployees]);
-        }
-    };
 
     console.log("hasmore = " + hasMore);
 
-    // const fetchEmployees = async () => {
-    //     const newEmployees = await submitFn(pattern, pageNumber, pageSize);
-    //     if (newEmployees.length === 0) {
-    //         setHasMore(false); // Если пришел пустой ответ, прекращаем загрузку
-    //     } else {
-    //         setFoundEmployees(prev => [...prev, ...newEmployees]); // Добавляем новые данные
-    //     }
-    // };
-
     const loadMore = () => {
-        setPageNumber(prev => prev + 1);
+        pageNumber.current++;
+    }
+
+    useEffect(() => {
+        if (pageNumber.current !== 1 && hasMore) {
+            setPrevFoundEmployees(foundEmployees);
+            getNewPartition();
+        }
+    }, [pageNumber.current]);
+
+    const getNewPartition = async () => {
+        await submitFn(pattern, pageNumber.current, PAGE_DATA_SIZE);
     };
 
     useEffect(() => {
-        if (pageNumber === 1 || hasMore) {
-            fetchEmployees();
+        if (prevFoundEmployees.length > 0 && employees.length === prevFoundEmployees.length) {
+            setHasMore(false);
         }
-    }, [pageNumber]);
-
-
-
-    function handlerPattern(event: React.ChangeEvent<HTMLInputElement>) {
-        setPattern(event.target.value);
-    }
-
-    async function onInputFocus() {
-        const res = await submitFn(pattern, pageNumber, pageSize);
-        setIsHiddenList(false);
-    }
+    }, [employees]);
 
     useEffect(() => {
         setFoundEmployees(employees);
     }, [employees]);
 
     useEffect(() => {
-        setPageNumber(1);
-    })
+        setPrevFoundEmployees([]);
+        pageNumber.current = 1;
+        setHasMore(true);
+    }, [pattern]);
+
+    function handlerPattern(event: React.ChangeEvent<HTMLInputElement>) {
+        setPattern(event.target.value);
+    }
+
+    async function onInputFocus() {
+        await submitFn(pattern, pageNumber.current, PAGE_DATA_SIZE);
+        setIsHiddenList(false);
+    }
 
     async function onSubmitFn(event: any) {
         event.preventDefault();
-        const res = await submitFn(pattern, pageNumber, pageSize);
+        await submitFn(pattern, pageNumber.current, PAGE_DATA_SIZE);
         setIsHiddenList(false);
-
     }
 
     function onClickFn(employee: Employee) {
@@ -108,34 +95,11 @@ export const SearchForm: React.FC<Props> = ({ submitFn, employees }) => {
     }
 
     useEffect(() => {
-        setPageNumber(1);
-        setPrevFoundEmployees([]);
-    }, [pattern]);
-
-
-
-    // useEffect(() => {
-    //     const handleClickOutside = (event: any) => {
-    //         if (!document.getElementById('search-field')!.contains(event.target) ||
-    //             (document.getElementById('search-button') && !document.getElementById('search-button')!.contains(event.target)) ||
-    //             (!isHiddenList && !document.getElementById('employees-list')!.contains(event.target)) ||
-    //             (!isHiddenList && !document.getElementById('employees-info')!.contains(event.target)) ||
-    //             (openDetails && !document.getElementById('employee-card')!.contains(event.target))) {
-    //             setIsHiddenList(true);
-    //             setPattern('');
-    //         }
-    //     };
-    //     document.addEventListener('mousedown', handleClickOutside);
-    //     return () => {
-    //         document.removeEventListener('mousedown', handleClickOutside);
-    //     };
-    // }, []);
-
-    useEffect(() => {
         const handleClickOutside = (event: any) => {
             if (document.getElementById('search-field') && !document.getElementById('search-field')!.contains(event.target) &&
                 document.getElementById('search-button') && !document.getElementById('search-button')!.contains(event.target) &&
                 document.getElementById('employees-list') && !document.getElementById('employees-list')!.contains(event.target) &&
+                document.getElementById('load-more-button') && !document.getElementById('load-more-button')!.contains(event.target) &&
                 !(openDetails && document.getElementById('employee-card')!.contains(event.target))) {
                 setIsHiddenList(true);
                 setPattern('');
@@ -146,7 +110,6 @@ export const SearchForm: React.FC<Props> = ({ submitFn, employees }) => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [openDetails]);
-
 
     return (
         <div style={{ marginTop: "27vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -178,8 +141,8 @@ export const SearchForm: React.FC<Props> = ({ submitFn, employees }) => {
                         <DropdownList onClose={() => setIsHiddenList(true)}>
                             <div id="employees-list" className="employees-list">
                                 {foundEmployees.map(e => (
-                                    <a id="employee-info" key={e.id} onClick={() => onClickFn(e)}>
-                                        <div id="employee-info" className="employee-info">
+                                    <a id={`employee-info-${e.id}`} key={e.id} onClick={() => onClickFn(e)}>
+                                        <div className="employee-info">
                                             <span className="employee-image"
                                                 style={{
                                                     backgroundImage: `url(${e.imageUrl})`,
@@ -199,9 +162,15 @@ export const SearchForm: React.FC<Props> = ({ submitFn, employees }) => {
                                         </div>
                                     </a>
                                 ))}
-                                {hasMore && (
-                                    <div>
-                                        <button onClick={loadMore} style={{ color: "white" }} className="load-more-button">
+                                {pattern != "" && (
+                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                        <button
+                                            key={"load-more-button"}
+                                            onClick={loadMore}
+                                            id='load-more-button'
+                                            className={`load-more-button employee-info ${!hasMore ? 'disabled-button' : ''}`}
+                                            style={{ justifyContent: "center", textAlign: 'center' }}
+                                            disabled={!hasMore}>
                                             Load more
                                         </button>
                                     </div>

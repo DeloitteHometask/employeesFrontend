@@ -9,7 +9,7 @@ type Props = {
 
 const SignUpForm: React.FC<Props> = ({ submitFn }) => {
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: ''
   });
 
@@ -20,9 +20,9 @@ const SignUpForm: React.FC<Props> = ({ submitFn }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email: string = data.get('email')! as string;
+    const username: string = data.get('username')! as string;
     const password: string = data.get('password')! as string;
-    const result = await submitFn({ email, password });
+    const result = await submitFn({ username, password });
     setMessage(result.message || "");
     setSeverity(result.status);
     setOpen(true);
@@ -47,13 +47,14 @@ const SignUpForm: React.FC<Props> = ({ submitFn }) => {
         <form onSubmit={handleSubmit}>
         <div className="form-row">
           <input
-            className='email-input'
-            type="email"
-            name="email"
-            placeholder="Email Address"
+            className='username-input'
+            type="text"
+            name="username"
+            placeholder="Username"
             required
-            value={formData.email}
+            value={formData.username}
           // onChange={handleInputChange}
+          // minLength="8"
           />
           </div>
           <div className="form-row">
@@ -64,6 +65,8 @@ const SignUpForm: React.FC<Props> = ({ submitFn }) => {
             placeholder="Password"
             required
             value={formData.password}
+            // minLength="8"
+
           // onChange={handleInputChange}
           />
           </div>

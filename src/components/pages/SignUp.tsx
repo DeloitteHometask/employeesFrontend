@@ -17,8 +17,8 @@ const SignUp: React.FC = () => {
         }
         try {
             const user: UserData = await authService.registration(lodinData);
-            successMessage = `user with email: ${user!.username} has been registered`;
-            const res: UserData = await authService.login({ email: lodinData.email, password: lodinData.password });
+            successMessage = `user with username: ${user!.username} has been registered`;
+            const res: UserData = await authService.login({ username: lodinData.username, password: lodinData.password });
             res && dispatch(authActions.set({ ...lodinData, role: res.role }));
             inputResult = {
                 status: res ? 'success' : 'error',

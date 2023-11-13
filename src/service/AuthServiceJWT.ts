@@ -39,7 +39,7 @@ export default class AuthServiceJwt implements AuthService {
 
     async login(loginData: LoginData): Promise<UserData > {
         const serverLoginData: any ={};
-        serverLoginData.username = loginData.email;
+        serverLoginData.username = loginData.username;
         serverLoginData.password = loginData.password
         
        const response = await fetch(this.url + "/login", {
@@ -80,13 +80,13 @@ export default class AuthServiceJwt implements AuthService {
         if (loginData.password.length < 6) {
             throw 'Password should be at least 6 characters';
         }
-        const isUnique: boolean = await this.isEmailUnque(loginData.email);
+        const isUnique: boolean = await this.isUsernameUnque(loginData.username);
         if (!isUnique) {
             throw 'User with this email already exists';
         }
 
         const serverLoginData: any ={};
-        serverLoginData.username = loginData.email;
+        serverLoginData.username = loginData.username;
         serverLoginData.password = loginData.password
         serverLoginData.role = ["USER"]
         
@@ -101,7 +101,7 @@ export default class AuthServiceJwt implements AuthService {
         return response.ok ? getUserData(res) : null;
     }
 
-     private async isEmailUnque(email: string): Promise<boolean> {
+     private async isUsernameUnque(email: string): Promise<boolean> {
        const response = await fetch(this.url, {
         method: 'GET',
         headers: {

@@ -13,7 +13,6 @@
   color: rgb(68, 255, 47)
 }
 
-
 .navigator {
   float: right;
   position: fixed;
@@ -76,7 +75,7 @@
 
 .search-input,
 .password-input,
-.email-input,
+.username-input,
 .employee-form-input {
   justify-content: center;
   align-items: center;
@@ -84,8 +83,6 @@
   height: 40px;
   border-radius: 10cqb;
 }
-
-
 
 .employees-search {
   display: flex;
@@ -130,6 +127,12 @@
   background-color: white;
 }
 
+.load-more-button:hover {
+  background-color: #048a96;
+}
+
+
+
 .employee-image {
   width: 50px;
   height: 50px;
@@ -151,7 +154,8 @@
 .sing-in-button,
 .create-account-button,
 .sing-up-button,
-.create-employee-button {
+.create-employee-button,
+.load-more-button {
   border: none;
   color: white;
   font-size: 2vh;
@@ -160,6 +164,10 @@
   cursor: pointer;
   border-radius: 10cqb;
 }
+  .disabled-button{
+    background-color: #048a96;
+  }
+
 
 .sing-in-button:hover {
   background-color: #048a96
