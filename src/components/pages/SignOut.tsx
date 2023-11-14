@@ -1,22 +1,21 @@
 import { useDispatch } from 'react-redux';
 import { authActions } from '../../redux/slices/AuthSlice';
+import { authService } from '../../config/service-config';
 
 const SignOut: React.FC = () => {
     const dispatch = useDispatch();
+    
     return (
-        <button onClick={() => dispatch(authActions.reset())}>confirm sign out</button>
+        <div style={{
+            marginTop: "27vh", alignItems: "center", justifyContent: "center", display: "flex"
+        }}>
+        <button className='sing-in-button' 
+        onClick={() => {
+            dispatch(authActions.reset());
+            authService.logout();
+            }}>Sign out</button>
+        </div>
     );
 }
  
 export default SignOut;
-
-// import {useDispatch} from 'react-redux';
-// import { authActions } from '../../redux/slices/AuthSlice';
-// import { Button } from '@mui/material';
-// const SignOut: React.FC = () => {
-//     const dispatch = useDispatch();
-//     return <
-//         Button onClick={() => dispatch(authActions.reset())}>confirm sign out</Button>
-// }
- 
-//  export default SignOut;

@@ -7,6 +7,5 @@
      "admin": [{"to": "/employees/add", "label": "Add Employee", "order":2}],
      "noadmin": [],
      "noauthenticated": [{"to": "/signin", "label": "Sign In", "order": 3}, 
-     {"to": "/signup", "label": "Sign Up", "order": 4},
-     {"to": "/employees/add", "label": "Add Employee", "order":2}]
+     {"to": "/signup", "label": "Sign Up", "order": 4}]
 } 

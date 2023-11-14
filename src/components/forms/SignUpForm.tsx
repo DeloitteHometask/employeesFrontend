@@ -4,15 +4,9 @@ import InputResult from '../../model/InputResult';
 
 type Props = {
   submitFn: (loginData: LoginData) => Promise<InputResult>
-
 }
 
 const SignUpForm: React.FC<Props> = ({ submitFn }) => {
-  const [formData, setFormData] = useState({
-    username: '',
-    password: ''
-  });
-
   const [message, setMessage] = useState('');
   const [severity, setSeverity] = useState('success');
   const [open, setOpen] = useState(false);
@@ -28,14 +22,6 @@ const SignUpForm: React.FC<Props> = ({ submitFn }) => {
     setOpen(true);
   };
 
-  //   const handleInputChange = (event: React.FormEvent<HTMLFormElement>) => {
-  //     const { name, value } = event.target;
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       [name]: value,
-  //     }));
-  //   };
-
   return (
     <div style={{
       marginTop: "27vh", alignItems: "center", justifyContent: "center", display: "flex"
@@ -45,49 +31,39 @@ const SignUpForm: React.FC<Props> = ({ submitFn }) => {
           SIGN UP
         </div>
         <form onSubmit={handleSubmit}>
-        <div className="form-row">
-          <input
-            className='username-input'
-            type="text"
-            name="username"
-            placeholder="Username"
-            required
-            value={formData.username}
-          // onChange={handleInputChange}
-          // minLength="8"
-          />
+          <div className="form-row">
+            <input
+              className='username-input'
+              type="text"
+              name="username"
+              placeholder="Username"
+              required
+              minLength={5}
+            />
           </div>
           <div className="form-row">
-          <input
-            className='password-input'
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-            value={formData.password}
-            // minLength="8"
-
-          // onChange={handleInputChange}
-          />
+            <input
+              className='password-input'
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+              minLength={8}
+            />
           </div>
           <div className="form-buttons">
-          <button className='sing-up-button' type="submit">Sign Up</button>
+            <button className='sing-up-button' type="submit">Sign Up</button>
           </div>
         </form>
       </div>
 
       {open && (
-                <div className={`alert ${severity}`}>
-                    {message}
-                </div>
-            )}
-
-      {/* <div className={`alert ${open ? 'show' : ''}`}>
-        <div className={`alert-message ${severity}`}>{message}</div>
-        <button className="close-alert" onClick={() => setOpen(false)}>
-          &times;
-        </button>
-      </div> */}
+        <div className={`alert-container alert ${severity}`}>
+          <div className="alert-message">
+            {message}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

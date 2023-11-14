@@ -31,7 +31,6 @@ const Navigator: React.FC<{ routes: RouteType[] }> = ({routes}) => {
                             marginRight: "1vh",
                             color: "white"
                           }}
-                        
                     >
                         {route.label}
                     </Link>

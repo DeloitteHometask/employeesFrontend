@@ -155,7 +155,8 @@
 .create-account-button,
 .sing-up-button,
 .create-employee-button,
-.load-more-button {
+.load-more-button,
+.sing-out-button {
   border: none;
   color: white;
   font-size: 2vh;
@@ -164,12 +165,18 @@
   cursor: pointer;
   border-radius: 10cqb;
 }
+
+.sing-out-button{
+
+  margin: 0
+
+}
   .disabled-button{
     background-color: #048a96;
   }
 
 
-.sing-in-button:hover {
+.sing-in-button:hover, .sing-out-button:hover {
   background-color: #048a96
 }
 
@@ -268,3 +275,29 @@
 .email-input, .password-input, .search-input, .employee-form-input {
   text-indent: 10px;
 }
+
+
+.alert-container {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(128, 128, 128, 0.5);
+  padding: 10px;
+  z-index: 9999;
+}
+
+.alert-message {
+  color: #fff;
+}
+
+.alert.success {
+  background-color: #4CAF50;
+}
+
+.alert.warning {
+  background-color: #FFC107;
+}
+
+.alert.error {
+  background-color: #F44336;
+  }

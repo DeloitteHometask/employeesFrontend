@@ -5,27 +5,27 @@ import LoginData from "../../model/LoginData";
 import { authService } from "../../config/service-config";
 import UserData from "../../model/UserData";
 import SignInForm from "../forms/SignInForm";
+
 const SignIn: React.FC = () => {
     const dispatch = useDispatch();
+
     async function submitFn(loginData: LoginData): Promise<InputResult> {
-        
-        let inputResult: InputResult = {status: 'error',
-         message: "Server unavailable, repeat later on"}
+        let inputResult: InputResult = {
+            status: 'error',
+            message: "Server unavailable, repeat later on"
+        }
         try {
             const res: UserData = await authService.login(loginData);
             res && dispatch(authActions.set(res));
-            console.log("res" + res);
-            
-            inputResult = {status: res ? 'success' : 'error',
-            message: res ? '' : 'Incorrect Credentials'}
-            
+            inputResult = {
+                status: res ? 'success' : 'error',
+                message: res ? '' : 'Incorrect Credentials'
+            }
         } catch (error) {
-            
         }
         return inputResult;
     }
-    return <SignInForm submitFn={submitFn}/>
-
+    return <SignInForm submitFn={submitFn} />
 }
 
- export default SignIn;
+export default SignIn;

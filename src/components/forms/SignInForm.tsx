@@ -23,52 +23,53 @@ const SignInForm: React.FC<Props> = ({ submitFn }) => {
         message.current && setOpen(true);
     };
 
-    return ( 
+    return (
         <div style={{
             marginTop: "27vh", alignItems: "center", justifyContent: "center", display: "flex"
         }}>
-            <div style={{ flexDirection: "column"}} className="signin-form" >
+            <div style={{ flexDirection: "column" }} className="signin-form" >
                 <div style={{ textAlign: "center", width: "100%" }} className="sing-in-header">
                     SIGN IN
                 </div>
                 <form onSubmit={handleSubmit}>
-                <div className="form-row">
-                    <input
-                        className='username-input'
-                        required
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                    />
+                    <div className="form-row">
+                        <input
+                            className='username-input'
+                            required
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                        />
                     </div>
-                   <div className="form-row">
-                    <input
-                        className='password-input'
-                        required
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                    />
+                    <div className="form-row">
+                        <input
+                            className='password-input'
+                            required
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                        />
                     </div>
                     <div className="form-buttons">
-                    <button className='sing-in-button' type="submit">Sign In</button>
-
-                    <button
-                        className="create-account-button"
-                        type="button"
-                        onClick={() => {
-                            window.location.href = "/signup";
-                        }}
-                        style={{marginLeft:"1vh"}}
-                    >
-                        Create new account
-                    </button>
+                        <button className='sing-in-button' type="submit">Sign In</button>
+                        <button
+                            className="create-account-button"
+                            type="button"
+                            onClick={() => {
+                                window.location.href = "/signup";
+                            }}
+                            style={{ marginLeft: "1vh" }}
+                        >
+                            Create new account
+                        </button>
                     </div>
                 </form>
             </div>
             {open && (
-                <div className={`alert ${severity.current}`}>
-                    {message.current}
+                <div className={`alert-container alert ${severity.current}`}>
+                    <div className="alert-message">
+                        {message.current}
+                    </div>
                 </div>
             )}
         </div>
