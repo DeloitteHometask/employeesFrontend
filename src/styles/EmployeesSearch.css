@@ -43,6 +43,9 @@
 
 .employee-info:hover {
   background-color: white;
+} 
+.load-more-button:hover {
+  background-color: #048a96;
 }
 
 .employee-image {
