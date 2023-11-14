@@ -290,3 +290,46 @@
 .alert-message {
   color: #fff;
 }
+
+
+@media(max-width: 430px) {
+  .search-input,
+.password-input,
+.username-input,
+.employee-form-input {
+  justify-content: center;
+  align-items: center;
+  width: 35vh;
+  height: 30px;
+  border-radius: 10cqb;
+}
+
+.employees-search-header,
+.sing-in-header,
+.sing-up-header,
+.add-employee-header {
+  color: #06b8c8;
+  font-weight: bold;
+  font-size: 3.5vh;
+  letter-spacing: 0.1em;
+}
+
+.employees-list {
+  width: 35vh;
+  max-height: 50vh;
+}
+
+.navigator {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding-top: 10px;
+}
+
+.navigator-item{
+  padding-bottom: 10px;
+}
+}
