@@ -24,9 +24,9 @@ export default class AuthServiceJwt implements AuthService {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(serverLoginData)
-        });
-        const res = await response.json();
-        return response.ok ? getUserData(res) : null;
+        });  
+        const res = response.ok ? getUserData(await response.json()) : null;
+        return res;
     }
 
     async logout(): Promise<void> {

@@ -15,7 +15,7 @@ const SignIn: React.FC = () => {
             message: "Server unavailable, repeat later on"
         }
         try {
-            const res: UserData = await authService.login(loginData);
+            const res: UserData = await authService.login(loginData);            
             res && dispatch(authActions.set(res));
             inputResult = {
                 status: res ? 'success' : 'error',

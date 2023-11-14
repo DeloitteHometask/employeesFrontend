@@ -284,20 +284,9 @@
   background-color: rgba(128, 128, 128, 0.5);
   padding: 10px;
   z-index: 9999;
+  border-radius: 10cqb;
 }
 
 .alert-message {
   color: #fff;
 }
-
-.alert.success {
-  background-color: #4CAF50;
-}
-
-.alert.warning {
-  background-color: #FFC107;
-}
-
-.alert.error {
-  background-color: #F44336;
-  }
