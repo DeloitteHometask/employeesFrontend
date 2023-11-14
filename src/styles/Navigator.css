@@ -1,0 +1,25 @@
+.navigator {
+    float: right;
+    position: fixed;
+    top: 3vh;
+    right: 3vh;
+    font-size: 2vh;
+    color: white;
+    margin-right: 2vh;
+}
+
+@media(max-width: 430px) {
+    .navigator {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        position: fixed;
+        top: 0;
+        right: 0;
+        padding-top: 10px;
+    }
+
+    .navigator-item {
+        padding-bottom: 10px;
+    }
+}

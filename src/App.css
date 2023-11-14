@@ -13,16 +13,6 @@
   color: rgb(68, 255, 47)
 }
 
-.navigator {
-  float: right;
-  position: fixed;
-  top: 3vh;
-  right: 3vh;
-  font-size: 2vh;
-  color: white;
-  margin-right: 2vh;
-}
-
 .employees-search-header,
 .sing-in-header,
 .sing-up-header,
@@ -31,46 +21,6 @@
   font-weight: bold;
   font-size: 5vh;
   letter-spacing: 0.1em;
-}
-
-.search-field {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1vh;
-  margin-bottom: 1vh;
-}
-
-.search-button {
-  position: relative;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  background-color: #06b8c8;
-  border: none;
-  cursor: pointer;
-}
-
-.search-button::before {
-  content: '';
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  width: 10px;
-  height: 10px;
-  border: 2px solid white;
-  border-radius: 50%;
-}
-
-.search-button::after {
-  content: '';
-  position: absolute;
-  left: 20px;
-  top: 25px;
-  width: 12px;
-  height: 2px;
-  background: white;
-  transform: rotate(45deg);
 }
 
 .search-input,
@@ -84,71 +34,8 @@
   border-radius: 10cqb;
 }
 
-.employees-search {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%; /* Установите ширину в соответствии с вашим дизайном */
-}
-
-.employees-list {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  width: 50vh;
-  max-height: 50vh; /* максимальная высота установлена на 50vh */
-  min-height: 0;
-  margin-top: -1vh;
-  margin-right: 6vh;
-  overflow-y: auto;
-  border-radius: 1cqb;
-  background-color: rgb(236, 234, 234);
-  color: black;
-
-}
-
-.employee-info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 10px;
-  cursor: pointer;
-  width: 50vh;
-
-
-
-}
-
-.employee-info:hover {
-  background-color: white;
-}
-
 .load-more-button:hover {
   background-color: #048a96;
-}
-
-
-
-.employee-image {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-  margin-left: 10px;
-  margin-top: 10px;
-  background-size: cover;
-  background-position: center;
-  display: inline-block;
-}
-
-.employee-info-text {
-  display: flex;
-  margin-bottom: 5px;
-  font-size: 14px;
-  flex-direction: column;
 }
 
 .sing-in-button,
@@ -166,116 +53,21 @@
   border-radius: 10cqb;
 }
 
-.sing-out-button{
-
+.sing-out-button {
   margin: 0
-
 }
-  .disabled-button{
-    background-color: #048a96;
-  }
 
-
-.sing-in-button:hover, .sing-out-button:hover {
+.sing-in-button:hover,
+.sing-out-button:hover {
   background-color: #048a96
 }
 
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-content {
-  position: relative;
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-}
-
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 50%;
-}
-
-.close-button:hover {
-  background-color:rgb(128, 42, 42)
-}
-
-.employee-name{
-  color: rgb(128, 42, 42);
-  font-weight: bold;
-  text-align: center;
-}
-
-.employee-worktitle{
-  color:gray;
-  text-align: center;
-
-}
-
-.employee-form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 25vh;
-}
-
-.employee-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%; /* Adjust width as needed */
-}
-
-.form-field {
-    margin-bottom: 10px;
-    width: 100%; /* Adjust width as needed */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* .form-row {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-} */
-
-.form-row {
-  display: flex;
-  flex-direction: column; /* Change to column */
-  align-items: center; /* Center align items */
-  width: 100%; /* Adjust as needed */
-  margin-bottom: 10px;
-}
-
-
-
-.form-buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.email-input, .password-input, .search-input, .employee-form-input {
+.email-input,
+.password-input,
+.search-input,
+.employee-form-input {
   text-indent: 10px;
 }
-
 
 .alert-container {
   position: fixed;
@@ -291,45 +83,25 @@
   color: #fff;
 }
 
-
 @media(max-width: 430px) {
   .search-input,
-.password-input,
-.username-input,
-.employee-form-input {
-  justify-content: center;
-  align-items: center;
-  width: 35vh;
-  height: 30px;
-  border-radius: 10cqb;
-}
+  .password-input,
+  .username-input,
+  .employee-form-input {
+    justify-content: center;
+    align-items: center;
+    width: 35vh;
+    height: 30px;
+    border-radius: 10cqb;
+  }
 
-.employees-search-header,
-.sing-in-header,
-.sing-up-header,
-.add-employee-header {
-  color: #06b8c8;
-  font-weight: bold;
-  font-size: 3.5vh;
-  letter-spacing: 0.1em;
-}
-
-.employees-list {
-  width: 35vh;
-  max-height: 50vh;
-}
-
-.navigator {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  position: fixed;
-  top: 0;
-  right: 0;
-  padding-top: 10px;
-}
-
-.navigator-item{
-  padding-bottom: 10px;
-}
+  .employees-search-header,
+  .sing-in-header,
+  .sing-up-header,
+  .add-employee-header {
+    color: #06b8c8;
+    font-weight: bold;
+    font-size: 3.5vh;
+    letter-spacing: 0.1em;
+  }
 }

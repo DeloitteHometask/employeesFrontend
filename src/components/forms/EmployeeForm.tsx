@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Employee from "../../model/Employee";
 import { useSelectorWorkTitles } from "../../hooks/hooks";
 import InputResult from "../../model/InputResult";
+import '../../styles/EmployeeForm.css'
 
 type Props = {
     submitFn: (empl: Employee) => Promise<InputResult>,
@@ -91,10 +92,8 @@ export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeForUpdate }) =
                     </div>
                 </div>
                 <div className="form-buttons">
-                    
                         <button className="create-employee-button" type="submit">Submit</button>
                         <button className="create-employee-button" type="reset">Reset</button>
-                    
                 </div>
             </form>
         </div>

@@ -2,10 +2,11 @@ import Employee from "../../model/Employee";
 import { EmployeeForm } from "../forms/EmployeeForm";
 import InputResult from "../../model/InputResult";
 import { authService, employeesService } from "../../config/service-config";
-
 import { useDispatchCode, useSelectorEmployees } from "../../hooks/hooks";
 import { SearchForm } from "../forms/SearchForm";
 import { useState } from "react";
+import '../../styles/Modal.css'
+import '../../styles/EmployeesSearch.css'
 
 const Home: React.FC = () => {
     let successMessage: string = '';
@@ -14,9 +15,6 @@ const Home: React.FC = () => {
     const employees = useSelectorEmployees();
 
     const [foundEmployees, setFoundEmployees] = useState<Employee[]>([]);
-
-    //???????????????
-    !employeesService.isConnectedToWebSocket() && employeesService.connectWebSocket();
 
     async function submitFn(pattern: String, page: number, pageSize: number): Promise<InputResult> {
         const res: InputResult = { status: 'success', message: '' };
@@ -33,7 +31,7 @@ const Home: React.FC = () => {
                         console.log(response);
                         if (page == 1 && response.length > 0) {
                             setFoundEmployees(response);
-                        } else if (page >1) {
+                        } else if (page > 1) {
                             const addData = [...foundEmployees, ...response];
                             setFoundEmployees(addData);
                         } else {

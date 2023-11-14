@@ -1,0 +1,17 @@
+.employee-name{
+    color: rgb(128, 42, 42);
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .employee-worktitle{
+    color:gray;
+    text-align: center;
+  }
+  
+  .employee-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25vh;
+  }

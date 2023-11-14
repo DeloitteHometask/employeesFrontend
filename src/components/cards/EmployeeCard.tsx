@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Employee from "../../model/Employee";
 import InputResult from "../../model/InputResult";
 import { EmployeeForm } from "../forms/EmployeeForm";
+import '../../styles/EmployeeCard.css'
 
 type Props = {
     employee: Employee;
@@ -41,8 +42,6 @@ const EmployeeCard: React.FC<Props> = ({ employee, updateFn, deleteFn }) => {
                     </button>
                 </div>
             )}
-
-
 
             {openUpdate && updateFn && (
                 <EmployeeForm submitFn={updateFn} employeeForUpdate={employee} />
