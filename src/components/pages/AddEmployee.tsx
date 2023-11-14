@@ -6,22 +6,23 @@ import { EmployeeForm } from "../forms/EmployeeForm";
 import { useDispatchCode } from "../../hooks/hooks";
 
 const AddEmployee: React.FC = () => {
-     let successMessage: string = ''; 
-        let errorMessage = '';
-        const dispatch = useDispatchCode();
-        async function submitFn(empl: Employee): Promise<InputResult> {   
-        const res: InputResult = {status: 'success', message: ''};
-        try {            
+    let successMessage: string = '';
+    let errorMessage = '';
+    const dispatch = useDispatchCode();
+
+    async function submitFn(empl: Employee): Promise<InputResult> {
+        const res: InputResult = { status: 'success', message: '' };
+        try {
             const employee: Employee = await employeesService.addEmployee(empl);
             successMessage = `employee with id: ${employee.id} has been added`
         } catch (error: any) {
-           errorMessage = error;
+            errorMessage = error;
         }
         dispatch(errorMessage, successMessage);
         return res;
     }
 
-    return <EmployeeForm submitFn={submitFn}/>
+    return <EmployeeForm submitFn={submitFn} />
 }
 
 export default AddEmployee;

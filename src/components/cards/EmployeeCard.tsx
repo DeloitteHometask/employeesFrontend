@@ -11,7 +11,7 @@ type Props = {
 }
 
 const EmployeeCard: React.FC<Props> = ({ employee, updateFn, deleteFn }) => {
-    const [openUpdate, setOpenUpdate] = useState<boolean>(false);    
+    const [openUpdate, setOpenUpdate] = useState<boolean>(false);
 
     return (
         <div className="employee-card" style={{ maxWidth: '345px', backgroundColor: '#FFFFFF' }}>

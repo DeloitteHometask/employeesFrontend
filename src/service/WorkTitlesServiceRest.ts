@@ -9,10 +9,10 @@ async function getResponseText(response: Response): Promise<string> {
     let res = '';
     if (!response.ok) {
         const { status } = response;
-        res = status == 401 || status == 403 ? 'Authentication' : await response.text();
+        res = status === 401 || status === 403 ? 'Authentication' : await response.text();
     }
     return res;
-}
+} 
 
 function getHeaders(): HeadersInit {
     const res: HeadersInit = {
@@ -27,21 +27,12 @@ async function fetchRequest(url: string, options: RequestInit, wt?: WorkTitle): 
     if (wt) {
         options.body = JSON.stringify(wt);
     }
-
     let flUpdate = true;
     let responseText = '';
     try {
-        // if (options.method == "DELETE" || options.method == "PUT") {
-        //     flUpdate = false;
-        //     await fetchRequest(url, { method: "GET" });
-        //     flUpdate = true;
-        // }
-
         const response = await fetch(url, options);
         responseText = await getResponseText(response);
         if (responseText) {
-            console.log("Response text" + responseText);
-            
             throw responseText;
         }
         return response;
@@ -52,6 +43,7 @@ async function fetchRequest(url: string, options: RequestInit, wt?: WorkTitle): 
         throw responseText ? responseText : "Server is unavailable. Repeat later on";
     }
 }
+
 async function fetchAllWorkTitles(url: string): Promise<WorkTitle[] | string> {
     const response = await fetchRequest(url, {});
     return await response.json()
@@ -79,23 +71,6 @@ export default class WorkTitlesServiceRest implements WorkTitlesService {
         return response.json();
     }
 
-    // async updateWorkTitle(wt: WorkTitle): Promise<WorkTitle> {
-    //     const response = await fetchRequest(this.getUrlWithId(wt.workTitle),
-    //         { method: 'PUT' }, wt);
-    //     return await response.json();
-    // }
-
-        // async deleteWorkTitle(id: any): Promise<void> {
-    //     await fetchRequest(this.getUrlWithId(id), {
-    //         method: 'DELETE',
-    //     });
-    // }
-
-
-    // private getUrlWithId(id: any): string {
-    //     return `${this.urlService}/${id}`;
-    // }
-
     getWorkTitles(): Observable<WorkTitle[] | string> {
         if (!this.observable) {
             this.observable = new Observable<WorkTitle[] | string>(subscriber => {
@@ -110,12 +85,11 @@ export default class WorkTitlesServiceRest implements WorkTitlesService {
 
     private subscriberNext(): void {
         fetchAllWorkTitles(this.urlService).then(worktitles => {
-            if (this.cache.size == 0 && worktitles instanceof Object) {
+            if (this.cache.size === 0 && worktitles instanceof Object) {
                 console.log("Cache was updated");
                 worktitles.forEach(wt => this.cache.set(wt.workTitle, wt))
             }
             this.subscriber?.next(Array.from(this.cache.values()));
-            // this.subscriber?.next(employees);
         }).catch(error => this.subscriber?.next(error));
     }
 
@@ -124,8 +98,8 @@ export default class WorkTitlesServiceRest implements WorkTitlesService {
             {},
             () => {
                 this.stompClient.subscribe(TOPIC, message => {
-                    const data: any= JSON.parse(message.body);
-                    data.operation == "delete"? this.cache.delete(data.payload.id) : this.cache.set(data.payload.id, data.payload)
+                    const data: any = JSON.parse(message.body);
+                    data.operation === "delete" ? this.cache.delete(data.payload.id) : this.cache.set(data.payload.id, data.payload)
                     this.subscriberNext();
                 });
             },
@@ -137,5 +111,4 @@ export default class WorkTitlesServiceRest implements WorkTitlesService {
         this.stompClient?.disconnect();
         this.cache.clear();
     }
-
 }

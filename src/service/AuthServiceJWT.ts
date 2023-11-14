@@ -12,6 +12,7 @@ function getUserData(data: any): UserData {
 }
 
 export default class AuthServiceJwt implements AuthService {
+
     constructor(private url: string) { }
 
     async login(loginData: LoginData): Promise<UserData> {
@@ -24,7 +25,7 @@ export default class AuthServiceJwt implements AuthService {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(serverLoginData)
-        });  
+        });
         const res = response.ok ? getUserData(await response.json()) : null;
         return res;
     }
@@ -44,7 +45,6 @@ export default class AuthServiceJwt implements AuthService {
         serverLoginData.username = loginData.username;
         serverLoginData.password = loginData.password
         serverLoginData.roles = ["USER"]
-
         const response = await fetch(this.url, {
             method: 'POST',
             headers: {

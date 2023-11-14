@@ -5,7 +5,6 @@ import Modal from "../common/Modal";
 import DropdownList from "../common/DropdownList";
 import InputResult from "../../model/InputResult";
 import '../../styles/Spinner.css'
-import { employeesService } from "../../config/service-config";
 
 const PAGE_DATA_SIZE = 10;
 
@@ -35,13 +34,13 @@ export const SearchForm: React.FC<Props> = ({ submitFn, employees }) => {
     }
     useEffect(() => {
         const timer = setTimeout(() => {
-          setIsWebSocketConnected(true);
+            setIsWebSocketConnected(true);
         }, 1000);
-      
+
         return () => {
-          clearTimeout(timer);
+            clearTimeout(timer);
         };
-      }, []);
+    }, []);
 
     useEffect(() => {
         if (pageNumber.current !== 1 && hasMore) {
@@ -95,7 +94,7 @@ export const SearchForm: React.FC<Props> = ({ submitFn, employees }) => {
 
     function highlightMatchingLetters(text: string, pattern: string) {
         const lowerPattern = pattern.toLowerCase();
-        const regex = new RegExp(`(${lowerPattern})`, "gi");
+        const regex = new RegExp(`(\\b${lowerPattern})`, 'gi');
         return text.split(regex).map((part, index) => (
             <span
                 key={index}
@@ -215,16 +214,3 @@ export const SearchForm: React.FC<Props> = ({ submitFn, employees }) => {
 
     );
 }
-
-    // useEffect(() => {
-    //     const checkWebSocketConnection = () => {
-    //       const isConnected = employeesService.isConnectedToWebSocket();
-    //       setIsWebSocketConnected(isConnected);
-    //     };
-    //     checkWebSocketConnection();      
-    //   }, []);
-
-    //   useEffect(() => {
-    //     if(!isWebSocketConnected)
-    //     setIsWebSocketConnected(true);
-    //   }, [isWebSocketConnected]);

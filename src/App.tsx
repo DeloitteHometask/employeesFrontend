@@ -1,22 +1,17 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useMemo } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import './App.css';
+import { RouteType } from "./components/navigators/Navigator";
 import NavigatorDispatcher from "./components/navigators/NavigatorDispatcher";
+import AddEmployee from "./components/pages/AddEmployee";
+import Home from "./components/pages/Home";
+import NotFound from "./components/pages/NotFound";
 import SignIn from "./components/pages/SignIn";
 import SignOut from "./components/pages/SignOut";
-import './App.css'
-import { useSelectorAuth, useSelectorCode } from "./redux/store";
-import { useMemo } from "react";
-import routesConfig from './config/routes-config.json';
-import NotFound from "./components/pages/NotFound";
-import { RouteType } from "./components/navigators/Navigator";
-import UserData from "./model/UserData";
-import AddEmployee from "./components/pages/AddEmployee";
-import { StatusType } from "./model/StatusType";
-import CodeType from "./model/CodeType";
-import { useDispatch } from "react-redux";
-import { authActions } from "./redux/slices/AuthSlice";
-import { authService } from "./config/service-config";
-import Home from "./components/pages/Home";
 import SignUp from "./components/pages/SignUp";
+import routesConfig from './config/routes-config.json';
+import UserData from "./model/UserData";
+import { useSelectorAuth } from "./redux/store";
 const { always, authenticated, admin, noadmin, noauthenticated } = routesConfig;
 
 type RouteTypeOrder = RouteType & { order?: number }
@@ -49,26 +44,7 @@ function getRoutes(userData: UserData): RouteType[] {
 
 const App: React.FC = () => {
   const userData = useSelectorAuth();
-  const code = useSelectorCode();
-  const dispatch = useDispatch();
-  // console.log("userData: ", userData);
-  
-
-  const [alertMessage, severity] = useMemo(() => codeProcessing(), [code]);
   const routes = useMemo(() => getRoutes(userData), [userData]);
-
-  function codeProcessing(): [string, StatusType] {
-    const res: [string, StatusType] = [code.message, 'success'];
-    switch (code.code) {
-      case CodeType.OK: res[1] = 'success'; break;
-      case CodeType.SERVER_ERROR: res[1] = 'error'; break;
-      case CodeType.UNKNOWN: res[1] = 'error'; break;
-      case CodeType.AUTH_ERROR: res[1] = 'error';
-        dispatch(authActions.reset());
-        authService.logout()
-    }
-    return res;
-  }
  
   return <BrowserRouter>
   <div className="deloitte">

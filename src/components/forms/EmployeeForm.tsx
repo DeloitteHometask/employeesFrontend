@@ -13,12 +13,11 @@ const initialEmployee: Employee = {
     workTitle: { workTitle: '' },
     imageUrl: ''
 };
-
+ 
 export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeForUpdate }) => {
     const workTitles = useSelectorWorkTitles();
     const [employee, setEmployee] = useState<Employee>(employeeForUpdate || initialEmployee);
-    const [errorMessage, setErrorMessage] = useState('');
-
+    
     function handlerName(event: any) {
         const name = event.target.value;
         const emplCopy = { ...employee };
@@ -53,8 +52,8 @@ export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeForUpdate }) =
     return (
         <div className="employee-form-container" style={{ marginTop: "25vh", flexDirection: "column" }} >
             <div style={{ textAlign: "center", width: "100%" }} className="add-employee-header">
-                    ADD NEW EMPLOYEE
-                </div>
+                ADD NEW EMPLOYEE
+            </div>
             <form className="employee-form" onSubmit={onSubmitFn} onReset={onResetFn}>
                 <div className="form-row">
                     <div>
@@ -92,8 +91,8 @@ export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeForUpdate }) =
                     </div>
                 </div>
                 <div className="form-buttons">
-                        <button className="create-employee-button" type="submit">Submit</button>
-                        <button className="create-employee-button" type="reset">Reset</button>
+                    <button className="create-employee-button" type="submit">Submit</button>
+                    <button className="create-employee-button" type="reset">Reset</button>
                 </div>
             </form>
         </div>

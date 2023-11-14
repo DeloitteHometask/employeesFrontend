@@ -1,12 +1,11 @@
-import Employee from "../../model/Employee";
-import { EmployeeForm } from "../forms/EmployeeForm";
-import InputResult from "../../model/InputResult";
-import { authService, employeesService } from "../../config/service-config";
-import { useDispatchCode, useSelectorEmployees } from "../../hooks/hooks";
-import { SearchForm } from "../forms/SearchForm";
 import { useState } from "react";
-import '../../styles/Modal.css'
-import '../../styles/EmployeesSearch.css'
+import { employeesService } from "../../config/service-config";
+import { useDispatchCode, useSelectorEmployees } from "../../hooks/hooks";
+import Employee from "../../model/Employee";
+import InputResult from "../../model/InputResult";
+import '../../styles/EmployeesSearch.css';
+import '../../styles/Modal.css';
+import { SearchForm } from "../forms/SearchForm";
 
 const Home: React.FC = () => {
     let successMessage: string = '';
@@ -23,7 +22,6 @@ const Home: React.FC = () => {
                 setFoundEmployees(employees);
             }
             else if (pattern.length > 1) {
-                console.log("page: " + page);
                 await employeesService.findEmployeesByPattern(pattern, page, pageSize)
                     .then(response => {
                         if (page == 1 && response.length > 0) {

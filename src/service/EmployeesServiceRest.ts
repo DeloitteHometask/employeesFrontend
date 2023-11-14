@@ -9,7 +9,7 @@ async function getResponseText(response: Response): Promise<string> {
     let res = '';
     if (!response.ok) {
         const { status } = response;
-        res = status == 401 || status == 403 ? 'Authentication' : await response.text();
+        res = status === 401 || status === 403 ? 'Authentication' : await response.text();
     }
     return res;
 }
@@ -33,20 +33,17 @@ async function fetchRequest(url: string, options: RequestInit, empl?: any): Prom
         const response = await fetch(url, options);
         responseText = await getResponseText(response);
         if (responseText) {
-            console.log("Response text" + responseText);
-
             throw responseText;
         }
         return response;
     } catch (error: any) {
         if (!flUpdate) {
-            console.log(error.message);
-
             throw error;
         }
         throw responseText ? responseText : "Server is unavailable. Repeat later on";
     }
 }
+
 async function fetchAllEmployees(url: string): Promise<Employee[] | string> {
     const response = await fetchRequest(url + "/sorted", {});
     return await response.json()
@@ -63,14 +60,12 @@ export default class EmployeesServiceRest implements EmployeesService {
     constructor(baseUrl: string) {
         this.urlService = `http://${baseUrl}/company/employees`;
         this.urlWebSocket = `ws://${baseUrl}/websocket/company`;
-        this.stompClient = Stomp.client(this.urlWebSocket);//get Client
+        this.stompClient = Stomp.client(this.urlWebSocket);
         this.cache = new Map();
     }
 
     async addEmployee(empl: Employee): Promise<Employee> {
         const employee = { ...empl, workTitle: empl.workTitle.workTitle };
-        console.log(employee);
-
         const response = await fetchRequest(this.urlService, {
             method: 'POST',
         }, employee);
@@ -82,7 +77,7 @@ export default class EmployeesServiceRest implements EmployeesService {
             this.observable = new Observable<Employee[] | string>(subscriber => {
                 this.subscriber = subscriber;
                 this.subscriberNext();
-                this.connectWebSocket();//getConnection
+                this.connectWebSocket();
                 return () => this.disconnectWebSocket()
             })
         }
@@ -91,7 +86,7 @@ export default class EmployeesServiceRest implements EmployeesService {
 
     private subscriberNext(): void {
         fetchAllEmployees(this.urlService).then(employees => {
-            if ((this.cache.size == 0 && employees instanceof Object) ||
+            if ((this.cache.size === 0 && employees instanceof Object) ||
                 (employees instanceof Object)) {
                 employees.forEach(e => this.cache.set(e.id, e))
             }
@@ -105,7 +100,7 @@ export default class EmployeesServiceRest implements EmployeesService {
             () => {
                 this.stompClient.subscribe(TOPIC, message => {
                     const data: any = JSON.parse(message.body);
-                    data.operation == "delete" ? this.cache.delete(data.payload.id) : this.cache.set(data.payload.id, data.payload)
+                    data.operation === "delete" ? this.cache.delete(data.payload.id) : this.cache.set(data.payload.id, data.payload)
                     this.subscriberNext();
                 });
             },

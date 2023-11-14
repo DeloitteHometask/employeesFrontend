@@ -7,11 +7,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  z-index: 1000; /* Increase z-index to ensure it's above other elements */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
-/* Add styles for the spinner */
 .spinner {
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
@@ -19,11 +18,15 @@
   width: 30px;
   height: 30px;
   animation: spin 1s linear infinite;
-  position: absolute; /* Position the spinner inside the container */
+  position: absolute;
 }
 
-/* Add keyframes for the spinner animation */
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

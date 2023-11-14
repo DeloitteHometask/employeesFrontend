@@ -7,18 +7,18 @@ type Props = {
     open: boolean
 }
 export const Confirmation: React.FC<Props> = ({ title, confirmFn, content, open }) => {
-  const handleClose = (isOk: boolean) => {
-      confirmFn(isOk);
-  };
+    const handleClose = (isOk: boolean) => {
+        confirmFn(isOk);
+    };
 
-  return open ? (
-      <div className="dialog">
-          <div className="dialog-title">{title}</div>
-          <div className="dialog-content">{content}</div>
-          <div className="dialog-actions">
-              <button onClick={() => handleClose(false)}>Cancel</button>
-              <button onClick={() => handleClose(true)}>OK</button>
-          </div>
-      </div>
-  ) : null;
+    return open ? (
+        <div className="dialog">
+            <div className="dialog-title">{title}</div>
+            <div className="dialog-content">{content}</div>
+            <div className="dialog-actions">
+                <button onClick={() => handleClose(false)}>Cancel</button>
+                <button onClick={() => handleClose(true)}>OK</button>
+            </div>
+        </div>
+    ) : null;
 }

@@ -1,10 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authReducer } from "./slices/AuthSlice";
 import { useSelector } from "react-redux";
-import UserData from "../model/UserData";
-import { codeReducer } from "./slices/codeSlice";
-import CodeType from "../model/CodeType";
 import CodePayload from "../model/CodePayload";
+import UserData from "../model/UserData";
+import { authReducer } from "./slices/AuthSlice";
+import { codeReducer } from "./slices/codeSlice";
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +11,7 @@ export const store = configureStore({
      codeState: codeReducer
     }
 });
+
 export function useSelectorAuth() {
     return useSelector<any, UserData>(state => state.authState.userData);
 }
