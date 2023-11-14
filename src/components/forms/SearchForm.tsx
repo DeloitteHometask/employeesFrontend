@@ -4,7 +4,8 @@ import EmployeeCard from "../cards/EmployeeCard";
 import Modal from "../common/Modal";
 import DropdownList from "../common/DropdownList";
 import InputResult from "../../model/InputResult";
-
+import '../../styles/Spinner.css'
+import { employeesService } from "../../config/service-config";
 
 const PAGE_DATA_SIZE = 10;
 
@@ -27,12 +28,20 @@ export const SearchForm: React.FC<Props> = ({ submitFn, employees }) => {
     const [pattern, setPattern] = useState<string>('');
     const pageNumber = useRef<number>(1);
     const [hasMore, setHasMore] = useState(true);
-
-    console.log("hasmore = " + hasMore);
+    const [isWebSocketConnected, setIsWebSocketConnected] = useState(false);
 
     const loadMore = () => {
         pageNumber.current++;
     }
+    useEffect(() => {
+        const timer = setTimeout(() => {
+          setIsWebSocketConnected(true);
+        }, 1000);
+      
+        return () => {
+          clearTimeout(timer);
+        };
+      }, []);
 
     useEffect(() => {
         if (pageNumber.current !== 1 && hasMore) {
@@ -69,10 +78,13 @@ export const SearchForm: React.FC<Props> = ({ submitFn, employees }) => {
         await submitFn(pattern, pageNumber.current, PAGE_DATA_SIZE);
         setIsHiddenList(false);
     }
+    const [isLoading, setIsLoading] = useState(false);
 
     async function onSubmitFn(event: any) {
         event.preventDefault();
+        setIsLoading(true);
         await submitFn(pattern, pageNumber.current, PAGE_DATA_SIZE);
+        setIsLoading(false);
         setIsHiddenList(false);
     }
 
@@ -101,7 +113,9 @@ export const SearchForm: React.FC<Props> = ({ submitFn, employees }) => {
             if (document.getElementById('search-field') && !document.getElementById('search-field')!.contains(event.target) &&
                 document.getElementById('search-button') && !document.getElementById('search-button')!.contains(event.target) &&
                 document.getElementById('employees-list') && !document.getElementById('employees-list')!.contains(event.target) &&
-                document.getElementById('load-more-button') && !document.getElementById('load-more-button')!.contains(event.target) &&
+                (!(document.getElementById('load-more-button') && !document.getElementById('load-more-button')!.contains(event.target))
+                    ||
+                    (document.getElementById('load-more-button') && !document.getElementById('load-more-button')!.contains(event.target))) &&
                 !(openDetails && document.getElementById('employee-card')!.contains(event.target))) {
                 setIsHiddenList(true);
                 setPattern('');
@@ -192,6 +206,25 @@ export const SearchForm: React.FC<Props> = ({ submitFn, employees }) => {
                 </div>
 
             )}
+            {(!isWebSocketConnected || isLoading) && (
+                <div className="spinner-container">
+                    <div className="spinner"></div>
+                </div>
+            )}
         </div>
+
     );
 }
+
+    // useEffect(() => {
+    //     const checkWebSocketConnection = () => {
+    //       const isConnected = employeesService.isConnectedToWebSocket();
+    //       setIsWebSocketConnected(isConnected);
+    //     };
+    //     checkWebSocketConnection();      
+    //   }, []);
+
+    //   useEffect(() => {
+    //     if(!isWebSocketConnected)
+    //     setIsWebSocketConnected(true);
+    //   }, [isWebSocketConnected]);

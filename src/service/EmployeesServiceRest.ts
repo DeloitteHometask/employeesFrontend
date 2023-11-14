@@ -12,8 +12,8 @@ async function getResponseText(response: Response): Promise<string> {
         res = status == 401 || status == 403 ? 'Authentication' : await response.text();
     }
     return res;
-
 }
+
 function getHeaders(): HeadersInit {
     const res: HeadersInit = {
         'Content-Type': 'application/json',
@@ -27,30 +27,23 @@ async function fetchRequest(url: string, options: RequestInit, empl?: any): Prom
     if (empl) {
         options.body = JSON.stringify(empl);
     }
-
     let flUpdate = true;
     let responseText = '';
     try {
-        // if (options.method == "DELETE" || options.method == "PUT") {
-        //     flUpdate = false;
-        //     await fetchRequest(url, { method: "GET" });
-        //     flUpdate = true;
-        // }
-
         const response = await fetch(url, options);
         responseText = await getResponseText(response);
         if (responseText) {
             console.log("Response text" + responseText);
-            
+
             throw responseText;
         }
         return response;
     } catch (error: any) {
         if (!flUpdate) {
             console.log(error.message);
-            
+
             throw error;
-        }    
+        }
         throw responseText ? responseText : "Server is unavailable. Repeat later on";
     }
 }
@@ -75,9 +68,9 @@ export default class EmployeesServiceRest implements EmployeesService {
     }
 
     async addEmployee(empl: Employee): Promise<Employee> {
-        const employee = {...empl, workTitle: empl.workTitle.workTitle};
+        const employee = { ...empl, workTitle: empl.workTitle.workTitle };
         console.log(employee);
-        
+
         const response = await fetchRequest(this.urlService, {
             method: 'POST',
         }, employee);
@@ -98,22 +91,21 @@ export default class EmployeesServiceRest implements EmployeesService {
 
     private subscriberNext(): void {
         fetchAllEmployees(this.urlService).then(employees => {
-            if (this.cache.size == 0 && employees instanceof Object) {
-                console.log("Cache was updated");
+            if ((this.cache.size == 0 && employees instanceof Object) ||
+                (employees instanceof Object)) {
                 employees.forEach(e => this.cache.set(e.id, e))
             }
             this.subscriber?.next(Array.from(this.cache.values()));
-            // this.subscriber?.next(employees);
         }).catch(error => this.subscriber?.next(error));
     }
 
-     connectWebSocket() {//if will be message from Server with this Theme
+    connectWebSocket() {
         this.stompClient.connect(
             {},
             () => {
                 this.stompClient.subscribe(TOPIC, message => {
-                    const data: any= JSON.parse(message.body);
-                    data.operation == "delete"? this.cache.delete(data.payload.id) : this.cache.set(data.payload.id, data.payload)
+                    const data: any = JSON.parse(message.body);
+                    data.operation == "delete" ? this.cache.delete(data.payload.id) : this.cache.set(data.payload.id, data.payload)
                     this.subscriberNext();
                 });
             },
@@ -131,14 +123,9 @@ export default class EmployeesServiceRest implements EmployeesService {
     }
 
     async findEmployeesByPattern(pattern: string, page: number, size: number = 10): Promise<Employee[]> {
-        console.log("received request for page " + page);
-        console.log("received size for page " + size);
         const patternUrl = `${this.urlService}/sorted/${pattern}?page=${page}&size=${size}`;
         const response = await fetchRequest(patternUrl, { method: 'GET' });
         return response.json();
     }
-
-    
 }
 
-    

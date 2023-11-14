@@ -20,33 +20,27 @@ const Home: React.FC = () => {
         const res: InputResult = { status: 'success', message: '' };
         try {
             if (pattern.length == 0) {
-
-
                 setFoundEmployees(employees);
             }
             else if (pattern.length > 1) {
                 console.log("page: " + page);
                 await employeesService.findEmployeesByPattern(pattern, page, pageSize)
                     .then(response => {
-                        console.log(response);
                         if (page == 1 && response.length > 0) {
                             setFoundEmployees(response);
-                        } else if (page > 1) {
+                        } else if (page >1) {
                             const addData = [...foundEmployees, ...response];
                             setFoundEmployees(addData);
                         } else {
-                            console.log("I received res length == 0");
                             setFoundEmployees(employees);
                         }
                     });
-
                 successMessage = `${foundEmployees.length} employees has been found`
             }
         } catch (error: any) {
             errorMessage = error;
         }
         dispatch(errorMessage, successMessage);
-        console.log("found employees sent" + foundEmployees.length);
         return res;
     }
 

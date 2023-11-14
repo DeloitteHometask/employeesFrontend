@@ -1,7 +1,7 @@
+import { employeesService } from "../../config/service-config";
 import Employee from "../../model/Employee";
-import { EmployeeForm } from "../forms/EmployeeForm";
 import InputResult from "../../model/InputResult";
-import { authService, employeesService } from "../../config/service-config";
+import { EmployeeForm } from "../forms/EmployeeForm";
 
 import { useDispatchCode } from "../../hooks/hooks";
 
@@ -9,8 +9,6 @@ const AddEmployee: React.FC = () => {
      let successMessage: string = ''; 
         let errorMessage = '';
         const dispatch = useDispatchCode();
-    
-    
         async function submitFn(empl: Employee): Promise<InputResult> {   
         const res: InputResult = {status: 'success', message: ''};
         try {            
