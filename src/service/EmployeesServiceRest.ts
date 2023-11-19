@@ -58,8 +58,8 @@ export default class EmployeesServiceRest implements EmployeesService {
     private cache: Map<number, Employee>;
 
     constructor(baseUrl: string) {
-        this.urlService = `http://${baseUrl}/company/employees`;
-        this.urlWebSocket = `ws://${baseUrl}/websocket/company`;
+        this.urlService = `https://${baseUrl}/company/employees`;
+        this.urlWebSocket = `wss://${baseUrl}/websocket/company`;
         this.stompClient = Stomp.client(this.urlWebSocket);
         this.cache = new Map();
     }

@@ -2,6 +2,7 @@ import * as React from 'react';
 import InputResult from '../../model/InputResult';
 import LoginData from '../../model/LoginData';
 import { StatusType } from '../../model/StatusType';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type Props = {
     submitFn: (loginData: LoginData) => Promise<InputResult>
@@ -11,6 +12,8 @@ const SignInForm: React.FC<Props> = ({ submitFn }) => {
     const message = React.useRef<string>('');
     const [open, setOpen] = React.useState(false);
     const severity = React.useRef<StatusType>('success');
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -56,7 +59,7 @@ const SignInForm: React.FC<Props> = ({ submitFn }) => {
                             className="create-account-button"
                             type="button"
                             onClick={() => {
-                                window.location.href = "/signup";
+                                navigate("/signup");
                             }}
                             style={{ marginLeft: "1vh" }}
                         >
@@ -77,3 +80,6 @@ const SignInForm: React.FC<Props> = ({ submitFn }) => {
 }
 
 export default SignInForm;
+
+
+                            // https://employees-hometask-frontend.fly.dev/signup

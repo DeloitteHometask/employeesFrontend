@@ -58,8 +58,8 @@ export default class WorkTitlesServiceRest implements WorkTitlesService {
     private cache: Map<String, WorkTitle>;
 
     constructor(baseUrl: string) {
-        this.urlService = `http://${baseUrl}/company/worktitles`;
-        this.urlWebSocket = `ws://${baseUrl}/websocket/company`;
+        this.urlService = `https://${baseUrl}/company/worktitles`;
+        this.urlWebSocket = `wss://${baseUrl}/websocket/company`;
         this.stompClient = Stomp.client(this.urlWebSocket);
         this.cache = new Map();
     }
